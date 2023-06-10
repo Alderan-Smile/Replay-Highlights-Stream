@@ -23,7 +23,7 @@ function buscarNuevoArchivoMP4($directorio, $archivoActual) {
   }
 }
 
-$directorio = '../Outplayed'; // Ruta de la carpeta de videos local
+$directorio = '../Outplayed/'; // Ruta de la carpeta de videos local
 $archivoActual = isset($_GET['archivo']) ? $_GET['archivo'] : '';
 $nuevoArchivoMP4 = buscarNuevoArchivoMP4($directorio, $archivoActual);
 echo $nuevoArchivoMP4;

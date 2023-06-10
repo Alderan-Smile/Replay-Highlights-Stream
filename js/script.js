@@ -1,29 +1,42 @@
-document.addEventListener('DOMContentLoaded', function() {
-  var archivoActual = '';
+window.addEventListener('DOMContentLoaded', function() {
+  // Obtener el elemento de video
+  var video = document.getElementById('video');
 
-  setInterval(function() {
-    detectarArchivoMP4(archivoActual, function(nuevoArchivo) {
-      if (nuevoArchivo !== archivoActual) {
-        archivoActual = nuevoArchivo;
-        reproducirVideo(archivoActual);
-      }
-    });
-  }, 2000); // Detectar cada 2 segundos (ajusta según tus necesidades)
+  // Variable para almacenar la URL del último video creado
+  var lastVideoUrl = null;
 
-  function detectarArchivoMP4(archivoActual, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '../php/detectar_archivo.php?archivo=' + encodeURIComponent(archivoActual), true);
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        var nuevoArchivo = xhr.responseText.trim();
-        callback(nuevoArchivo);
-      }
-    };
-    xhr.send();
+  // Función para cargar y reproducir el video
+  function loadVideo() {
+    fetch('scan.php')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        var videos = data.videos;
+
+        // Verificar si se encontraron videos
+        if (videos.length > 0) {
+          // Obtener la URL del último video creado
+          var lastVideo = videos[videos.length - 1];
+          
+          // Verificar si el último video es diferente al anterior
+          if (lastVideo !== lastVideoUrl) {
+            // Actualizar la fuente del video
+            video.src = lastVideo;
+            
+            // Almacenar la URL del último video como referencia
+            lastVideoUrl = lastVideo;
+          }
+        }
+      })
+      .catch(function(error) {
+        console.error('Error al cargar los videos:', error);
+      });
   }
 
-  function reproducirVideo(archivo) {
-    var videoPlayer = document.getElementById('videoPlayer');
-    videoPlayer.src = archivo;
-  }
+  // Llamar a la función para cargar y reproducir el video al cargar la página
+  loadVideo();
+
+  // Actualizar el video cada 5 segundos
+  setInterval(loadVideo, 5000);
 });
