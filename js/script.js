@@ -7,7 +7,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
   // Función para cargar y reproducir el video
   function loadVideo() {
-    fetch('scan.php')
+    fetch('scan.php?' + Date.now()) // Agregar la cadena de consulta única
       .then(function(response) {
         return response.json();
       })
