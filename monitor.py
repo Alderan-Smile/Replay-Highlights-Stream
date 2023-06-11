@@ -8,6 +8,7 @@ from moviepy.editor import VideoFileClip
 class FileEventHandler(FileSystemEventHandler):
     def __init__(self):
         self.processed_files = set()
+        self.total_duration = 0
 
     def on_created(self, event):
         if event.is_directory or not event.src_path.endswith('.mp4'):
@@ -28,9 +29,12 @@ class FileEventHandler(FileSystemEventHandler):
         # Verificar la duración del video
         duration = get_video_duration(event.src_path)
         if duration is not None:
+            self.total_duration += duration
             # Simular pulsaciones de teclas
             keyboard.press_and_release('page up')
-            time.sleep(duration + 5)
+            print("Duracion replay",self.total_duration)
+            time.sleep(self.total_duration)
+            print("Termina duracion")
             keyboard.press_and_release('page down')
 
 def get_video_duration(file_path):
