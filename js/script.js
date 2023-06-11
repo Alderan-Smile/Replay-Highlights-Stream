@@ -18,14 +18,35 @@ window.addEventListener('DOMContentLoaded', function() {
         if (videos.length > 0) {
           // Obtener la URL del último video creado
           var lastVideo = videos[videos.length - 1];
-          
+
           // Verificar si el último video es diferente al anterior
           if (lastVideo !== lastVideoUrl) {
-            // Actualizar la fuente del video
-            video.src = lastVideo;
-            
-            // Almacenar la URL del último video como referencia
-            lastVideoUrl = lastVideo;
+            // Verificar si el video actual se está reproduciendo
+            if (video.paused) {
+              // Actualizar la fuente del video
+              video.src = lastVideo;
+
+              // Almacenar la URL del último video como referencia
+              lastVideoUrl = lastVideo;
+
+              // Iniciar la reproducción del nuevo video
+              video.play();
+            } else {
+              // Esperar a que el video actual termine antes de cargar y reproducir el nuevo video
+              video.onended = function() {
+                // Actualizar la fuente del video
+                video.src = lastVideo;
+
+                // Almacenar la URL del último video como referencia
+                lastVideoUrl = lastVideo;
+
+                // Iniciar la reproducción del nuevo video
+                video.play();
+
+                // Eliminar el evento 'onended' para evitar que se repita
+                video.onended = null;
+              };
+            }
           }
         }
       })

@@ -36,6 +36,7 @@ class FileEventHandler(FileSystemEventHandler):
             time.sleep(self.total_duration)
             print("Termina duracion")
             keyboard.press_and_release('page down')
+            self.total_duration = 0
 
 def get_video_duration(file_path):
     try:
