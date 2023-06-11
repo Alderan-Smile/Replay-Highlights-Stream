@@ -32,9 +32,9 @@ class FileEventHandler(FileSystemEventHandler):
             self.total_duration += duration
             # Simular pulsaciones de teclas
             keyboard.press_and_release('page up')
-            print("Duracion replay",self.total_duration)
+            #print("Duracion replay",self.total_duration)
             time.sleep(self.total_duration)
-            print("Termina duracion")
+            #print("Termina duracion")
             keyboard.press_and_release('page down')
             self.total_duration = 0
 
