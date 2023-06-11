@@ -1,51 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Reproductor de videos MP4</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      overflow-y: hidden; /* Ocultar la barra de desplazamiento vertical */
-    }
-    
-    #video-container {
-      width: 100vw; /* Usar el ancho completo de la ventana */
-      height: 100vh; /* Usar la altura completa de la ventana */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    video {
-      max-width: 100%;
-      max-height: 100%;
-    }
-
-    video::-webkit-media-controls {
-      display: none; /* Ocultar los controles en navegadores basados en WebKit */
-    }
-    
-    video::-webkit-media-controls-enclosure {
-      display: none; /* Ocultar los controles en navegadores basados en WebKit */
-    }
-    
-    video::-webkit-media-controls-panel {
-      display: none; /* Ocultar los controles en navegadores basados en WebKit */
-    }
-    
-    video::-moz-media-controls {
-      display: none; /* Ocultar los controles en navegadores basados en Mozilla */
-    }
-    
-    video::-ms-media-controls {
-      display: none; /* Ocultar los controles en navegadores basados en Microsoft Edge o Internet Explorer */
-    }
-  </style>
+    <title>Outplayed</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <video id="video" controls autoplay></video>
-    <script src="js/script.js"></script>
+    <video id="videoPlayer" controls autoplay></video>
+
+    <script src="script.js"></script>
 </body>
 </html>
