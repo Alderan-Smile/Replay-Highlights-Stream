@@ -1,118 +1,62 @@
 import os
-import time
-import cv2
 import configparser
 import keyboard
+import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+from moviepy.editor import VideoFileClip
+from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
 
-# Clase para manejar los eventos de Watchdog
-class MyHandler(FileSystemEventHandler):
-    def on_created(self, event):
-        # Verificar si el archivo creado es un archivo MP4
-        if event.is_directory:
-            return
-        if not event.src_path.lower().endswith(".mp4"):
-            return
+config = configparser.ConfigParser()
+config.read('config.ini')
 
-        # Ignorar la carpeta específica
-        if "temp-capture" in event.src_path:
-            return
+video_folder = config['Paths']['video_folder']
+temp_folder = config['Paths']['temp_folder']
 
-        # Agregar el archivo a la lista de reproducción
-        playlist.append(event.src_path)
-
-# Clase para reproducir los videos
-class VideoPlayer:
-    def __init__(self):
-        self.current_video = None
-
-    def play_videos(self):
-        while True:
-            # Verificar si la lista de reproducción está vacía
-            if len(playlist) == 0:
-                # Simular presionar la tecla "page down" una vez
-                keyboard.press_and_release("page down")
-                time.sleep(0.1)
-                continue
-
-            # Obtener el siguiente video de la lista de reproducción
-            video_path = playlist.pop(0)
-
-            # Reproducir el video
-            self.play_video(video_path)
-
-    def play_video(self, video_path):
-        # Simular presionar la tecla "page up" una vez
-        keyboard.press_and_release("page up")
-        time.sleep(0.1)
-
-        # Leer el video usando cv2
-        video = cv2.VideoCapture(video_path)
-
-        # Obtener la velocidad de fotogramas (fps) del video
-        fps = video.get(cv2.CAP_PROP_FPS)
-
-        # Reproducir el video fotograma por fotograma
-        while True:
-            ret, frame = video.read()
-            if not ret:
-                break
-
-            # Mostrar el fotograma en una ventana
-            cv2.imshow("Video Player", frame)
-
-            # Esperar según la velocidad de fotogramas del video
-            time.sleep(1 / fps)
-
-            # Detectar si se presiona la tecla ESC para salir del programa
-            if cv2.waitKey(1) == 27:
-                break
-
-        # Cerrar la ventana de reproducción y liberar los recursos
-        cv2.destroyAllWindows()
-        video.release()
-
-        # Eliminar el video de la lista de reproducción si se reprodujo completamente
-        if video_path == self.current_video:
-            self.current_video = None
-
-# Función para cargar la configuración desde el archivo config.ini
-def load_config():
-    config = configparser.ConfigParser()
-    config.read("config.ini")
-    return config
-
-# Obtener la configuración
-config = load_config()
-
-# Obtener la ruta de la carpeta a monitorear
-folder_path = config.get("General", "Folder")
-
-# Obtener la lista de carpetas a ignorar
-ignore_folders = config.get("General", "IgnoreFolders").split(",")
-
-# Crear la lista de reproducción
 playlist = []
+played_videos = []
 
-# Crear un observador de Watchdog
-event_handler = MyHandler()
-observer = Observer()
-observer.schedule(event_handler, folder_path, recursive=True)
-observer.start()
 
-# Crear un reproductor de videos
-player = VideoPlayer()
+class FileEventHandler(FileSystemEventHandler):
+    def on_created(self, event):
+        if not event.is_directory and event.src_path.endswith('.mp4'):
+            if event.src_path.startswith(temp_folder):
+                return
 
-# Iniciar la reproducción de videos
-player.play_videos()
+            if event.src_path not in playlist:
+                playlist.append(event.src_path)
 
-# Mantener el proyecto en ejecución hasta que el usuario lo requiera
-while True:
-    # Detectar si se presiona la tecla ESC para salir del programa
-    if cv2.waitKey(1) == 27:
+            if len(playlist) == 1:
+                keyboard.press_and_release('page up')
+
+
+def play_video(file_path):
+    video = VideoFileClip(file_path)
+    video.preview()
+    played_videos.append(file_path)
+    playlist.remove(file_path)
+    keyboard.press_and_release('page down')
+
+
+def start_monitoring():
+    event_handler = FileEventHandler()
+    observer = Observer()
+    observer.schedule(event_handler, video_folder, recursive=True)
+    observer.start()
+
+    try:
+        while True:
+            if len(playlist) > 0:
+                file_path = playlist[0]
+                if file_path not in played_videos:
+                    play_video(file_path)
+            else:
+                time.sleep(1)
+    except KeyboardInterrupt:
         observer.stop()
-        break
 
-# Detener el observador de Watchdog
-observer.join()
+    observer.join()
+
+
+if __name__ == '__main__':
+    start_monitoring()
