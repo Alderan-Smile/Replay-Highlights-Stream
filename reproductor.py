@@ -2,6 +2,7 @@ import os
 import cv2
 import time
 import keyboard
+import json
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
@@ -56,8 +57,11 @@ class VideoHandler(FileSystemEventHandler):
 
 
 if __name__ == "__main__":
-    folder_path = r"C:\Users\Admn\Videos\Overwolf\Outplayed"
-    ignored_folders = [r"C:\Users\Admn\Videos\Overwolf\Outplayed\temp-capture"]
+    with open("config.json") as config_file:
+        config = json.load(config_file)
+
+    folder_path = config["folder_path"]
+    ignored_folders = config["ignored_folders"]
 
     event_handler = VideoHandler(folder_path, ignored_folders)
     observer = Observer()
