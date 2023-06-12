@@ -40,7 +40,7 @@ class VideoHandler(FileSystemEventHandler):
                 self.played_videos.add(video_path)
                 self.play_video(video_path)
             self.is_playing = False
-            keyboard.press_and_release("page down")  # Presionar "page down" al finalizar la lista
+            ##keyboard.press_and_release("page down")  # Presionar "page down" al finalizar la lista
 
     def play_video(self, video_path):
         keyboard.press_and_release("page up")  # Presionar "page up" antes de reproducir cada video
@@ -70,9 +70,13 @@ if __name__ == "__main__":
 
     try:
         while True:
+            if not event_handler.is_playing and len(event_handler.playlist) == 0:
+                break
             time.sleep(1)
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
+
+    ##keyboard.press_and_release("page down")  # Presionar "page down" al terminar la lista de reproducción
 
 cv2.destroyAllWindows()
