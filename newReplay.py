@@ -85,7 +85,7 @@ try:
 
                     # Simula la tecla "page down" después de reproducir el último video
                     if len(playlist) == 0:
-                        log(f'Lista terminada Terminada')
+                        log(f'Lista terminada')
                         time.sleep(2)
                         keyboard.press('page down')
                         keyboard.release('page down')
@@ -95,13 +95,12 @@ try:
                         played_videos.remove(video_path)
                 except Exception as e:
                     if len(playlist) == 0:
-                        log(f'Lista terminada Terminada con excepciones')
+                        log(f'Lista terminada con excepciones')
                         time.sleep(2)
                         keyboard.press('page down')
                         keyboard.release('page down')
-                    log("Error al reproducir el video:", video_path)
-                    log("Error:", str(e))
-
+                    log("Error al reproducir el video: " + video_path)
+                    log("Error: " + str(e))
 
     # Configura el observador para detectar cambios en la carpeta
     event_handler = FileCreatedEventHandler()
