@@ -47,7 +47,7 @@ Asegúrate de proporcionar las rutas correctas para `WatchFolder`, `IgnoreFolder
 ```
 python newReplay.py
 ```
->Esto iniciará el programa y comenzará a buscar nuevos archivos de video en la carpeta especificada en `WatchFolder`.
+   Esto iniciará el programa y comenzará a buscar nuevos archivos de video en la carpeta especificada en `WatchFolder`.
 
 2. Cuando se detecte un nuevo archivo de video, se reproducirá automáticamente sin sonido. Puedes usar las teclas "Page Up" y "Page Down" para navegar por los videos.
 
@@ -58,4 +58,4 @@ python newReplay.py
 ¡Disfruta de tus repeticiones de juego automatizadas!
 
 ## Créditos
-Este proyecto fue desarrollado por [tu_nombre_aquí]. Si tienes alguna pregunta o sugerencia, no dudes en contactarme.
+Este proyecto fue desarrollado por Oliver Consterla (Alderan Smile). Si tienes alguna pregunta o sugerencia, no dudes en contactarme.
