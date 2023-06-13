@@ -9,9 +9,13 @@ import pyglet
 from pydub import AudioSegment
 from pydub.playback import play as play_audio
 from logger import log
+from initConfig import configExist
 import cv2
 
+
+
 try:
+    configExist()
     # Lee la configuración desde el archivo externo config.ini
     config = configparser.ConfigParser()
     config.read('config.ini')
