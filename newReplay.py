@@ -16,8 +16,9 @@ try:
     config.read('config.ini')
     try:
         video_folder = config['DEFAULT']['video_folder']
-    except KeyError:
+    except KeyError as e:
         log("La clave 'video_folder' no está definida en el archivo config.ini.")
+        log(e)
         exit(1)
 
     # Rutas de carpetas
@@ -112,10 +113,10 @@ try:
     try:
         play_videos()
     except Exception as e:
-        log(f"Excepción al reproducir videos: {str(e)}")
+        log(f"Excepción al reproducir videos fin: {str(e)}")
 
-    # Detiene el observador cuando se cierra la ventana
-    keyboard.wait('esc')
+    ## Detiene el observador cuando se cierra la ventana
+    ## keyboard.wait('esc')
     observer.stop()
     observer.join()
 except Exception as e:
