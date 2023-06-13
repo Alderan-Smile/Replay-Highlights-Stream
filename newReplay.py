@@ -9,6 +9,7 @@ import pyglet
 from pydub import AudioSegment
 from pydub.playback import play as play_audio
 from logger import log
+import cv2
 
 try:
     # Lee la configuración desde el archivo externo config.ini
@@ -64,6 +65,11 @@ try:
                     audio_path = 'temp_audio.wav'
                     audio.write_audiofile(audio_path, codec='pcm_s16le')
 
+                    # Obtén la tasa de cuadros por segundo original del video
+                    cap = cv2.VideoCapture(video_path)
+                    fps = cap.get(cv2.CAP_PROP_FPS)
+                    cap.release()
+
                     # Reproduce el audio con pyglet
                     audio_player = pyglet.media.Player()
                     audio = pyglet.media.load(audio_path)
@@ -76,8 +82,8 @@ try:
                         audio_player.delete()
                         os.remove(audio_path)
 
-                    # Muestra el video sin audio utilizando MoviePy
-                    video.preview(fullscreen=False, audio=False)
+                    # Muestra el video sin audio utilizando MoviePy a la tasa de cuadros por segundo original
+                    video.preview(fullscreen=False, audio=False, fps=fps)
                     video.close()
 
                     played_videos.add(video_path)
