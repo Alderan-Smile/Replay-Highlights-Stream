@@ -22,6 +22,15 @@ try:
         log(e)
         exit(1)
 
+    try:
+        framerate_option = config.get('Framerate', 'option')
+    except configparser.NoSectionError:
+        log("La sección 'Framerate' no está definida en el archivo config.ini.")
+        framerate_option = 'original_player'
+    except configparser.NoOptionError:
+        log("La opción 'option' no está definida en la sección 'Framerate' del archivo config.ini.")
+        framerate_option = 'original_player'
+
     # Rutas de carpetas
     watch_folder = config.get('Paths', 'WatchFolder')
     ignore_folder = config.get('Paths', 'IgnoreFolder')
@@ -67,8 +76,25 @@ try:
 
                     # Obtén la tasa de cuadros por segundo original del video
                     cap = cv2.VideoCapture(video_path)
-                    fps = cap.get(cv2.CAP_PROP_FPS)
-                    cap.release()
+                    fps = None
+
+                    # Actualiza el valor de fps según la opción seleccionada
+                    if framerate_option == 'original_player':
+                        # Mantener la tasa de cuadros por segundo original del reproductor
+                        pass
+                    elif framerate_option == 'original_video':
+                        # Obtén la tasa de cuadros por segundo original del video
+                        cap = cv2.VideoCapture(video_path)
+                        fps = cap.get(cv2.CAP_PROP_FPS)
+                        cap.release()
+                    elif framerate_option == '15':
+                        fps = 15
+                    elif framerate_option == '30':
+                        fps = 30
+                    elif framerate_option == '45':
+                        fps = 45
+                    elif framerate_option == '60':
+                        fps = 60
 
                     # Reproduce el audio con pyglet
                     audio_player = pyglet.media.Player()
@@ -82,8 +108,11 @@ try:
                         audio_player.delete()
                         os.remove(audio_path)
 
-                    # Muestra el video sin audio utilizando MoviePy a la tasa de cuadros por segundo original
-                    video.preview(fullscreen=False, audio=False, fps=fps)
+                    # Muestra el video sin audio utilizando MoviePy a la tasa de cuadros por segundo seleccionada
+                    if fps is None:
+                        video.preview(fullscreen=False, audio=False)
+                    else:
+                        video.preview(fullscreen=False, audio=False, fps=fps)
                     video.close()
 
                     played_videos.add(video_path)
