@@ -58,4 +58,4 @@ python newReplay.py
 ¡Disfruta de tus repeticiones de juego automatizadas!
 
 ## Créditos
-Este proyecto fue desarrollado por [tu_nombre_aquí]. Si tienes alguna pregunta o sugerencia, no dudes en contactarme.
+Este proyecto fue desarrollado por Oliver Consterla (Alderan Smile). Si tienes alguna pregunta o sugerencia, no dudes en contactarme.
