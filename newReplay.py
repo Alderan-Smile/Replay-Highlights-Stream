@@ -12,6 +12,7 @@ from pydub.playback import play as play_audio
 # Lee la configuración desde el archivo externo config.ini
 config = configparser.ConfigParser()
 config.read('config.ini')
+video_folder = config['DEFAULT']['video_folder']
 
 # Rutas de carpetas
 watch_folder = config.get('Paths', 'WatchFolder')
@@ -36,7 +37,8 @@ def play_videos():
             time.sleep(1)
             continue
 
-        video_path = playlist.pop(0)
+        video_filename = playlist.pop(0)
+        video_path = os.path.join(video_folder, video_filename)
         if video_path not in played_videos:
             print(f'Reproduciendo: {video_path}')
 
