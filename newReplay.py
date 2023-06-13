@@ -1,5 +1,9 @@
 import configparser
 import os
+import subprocess
+if not os.path.isfile('config.ini'):
+    # Llamar al script initConfig.py para descargar el archivo config.ini
+    subprocess.run(["python", "initConfig.py"])
 import time
 import keyboard
 from watchdog.observers import Observer
@@ -118,6 +122,11 @@ try:
                     played_videos.add(video_path)
                     log(f'Terminado: {video_path}')
 
+                    # Elimina el video de la lista de reproducción
+                    if video_path in played_videos:
+                        played_videos.remove(video_path)
+                        playlist.remove(video_path)
+
                     # Simula la tecla "page down" después de reproducir el último video
                     if len(playlist) == 0:
                         log(f'Lista terminada')
@@ -125,9 +134,6 @@ try:
                         keyboard.press('page down')
                         keyboard.release('page down')
 
-                    # Elimina el video de la lista de reproducción
-                    if video_path in played_videos:
-                        played_videos.remove(video_path)
                 except Exception as e:
                     if len(playlist) == 0:
                         log(f'Lista terminada con excepciones')
@@ -136,8 +142,9 @@ try:
                         keyboard.release('page down')
                     log("Error al reproducir el video: " + video_path)
                     log("Error: " + str(e))
+                    continue
 
-    # Configura el observador para detectar cambios en la carpeta
+                    # Configura el observador para detectar cambios en la carpeta
     event_handler = FileCreatedEventHandler()
     observer = Observer()
     observer.schedule(event_handler, watch_folder, recursive=True)
