@@ -125,6 +125,7 @@ try:
                     # Elimina el video de la lista de reproducción
                     if video_path in played_videos:
                         played_videos.remove(video_path)
+                    if video_path in playlist:
                         playlist.remove(video_path)
 
                     # Simula la tecla "page down" después de reproducir el último video
