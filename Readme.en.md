@@ -53,4 +53,4 @@ This will start the program and begin searching for new video files in the folde
 Enjoy your automated game replays!
 
 ## Credits
-This project was developed by [your_name_here]. If you have any questions or suggestions, feel free to contact me.
+This project was developed by Oliver Consterla (Alderan Smile). If you have any questions or suggestions, feel free to contact me.
