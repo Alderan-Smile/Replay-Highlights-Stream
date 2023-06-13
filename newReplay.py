@@ -45,7 +45,7 @@ try:
             if not event.is_directory and event.src_path.endswith('.mp4'):
                 video_path = event.src_path
                 try:
-                    if video_path not in playlist and not video_path.startswith(ignore_folder):
+                    if not video_path.startswith(ignore_folder) and not os.path.dirname(video_path) == watch_folder:
                         playlist.append(video_path)
                 except Exception as e:
                     log(f"Error processing video: {video_path}")
