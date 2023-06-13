@@ -5,7 +5,7 @@ config_file_path = 'config.ini'
 
 if not os.path.isfile(config_file_path):
     # Descargar el archivo config.ini desde el repositorio en GitHub
-    url = 'https://raw.githubusercontent.com/tu_usuario/tu_repositorio/ruta_al_archivo/config.ini'
+    url = 'https://raw.githubusercontent.com/Alderan-Smile/outplayed/main/config.ini'
     response = requests.get(url)
 
     if response.status_code == 200:
