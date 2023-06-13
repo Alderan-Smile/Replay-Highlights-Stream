@@ -1,4 +1,5 @@
 # OutPlayed Replay Stream
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/Alderan-Smile/outplayed/blob/main/Readme.en.md)
 
 Este proyecto es una herramienta para reproducir automáticamente archivos de video en una carpeta específica.
 

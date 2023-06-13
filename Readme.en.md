@@ -1,4 +1,5 @@
 # OutPlayed Replay Stream
+[![es](https://img.shields.io/badge/lang-es-yellow.svg)](https://github.com/Alderan-Smile/outplayed/blob/main/Readme.md)
 
 This project is a tool for automatically playing video files in a specific folder.
 
