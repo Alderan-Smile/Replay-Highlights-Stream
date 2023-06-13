@@ -49,6 +49,7 @@ Asegúrate de proporcionar las rutas correctas para `WatchFolder`, `IgnoreFolder
 ```
 python newReplay.py
 ```
+
 Esto iniciará el programa y comenzará a buscar nuevos archivos de video en la carpeta especificada en `WatchFolder`.
 
 2. Cuando se detecte un nuevo archivo de video, se reproducirá automáticamente sin sonido. Puedes utilizar las teclas "Page Up" (Escena Replay) y "Page Down" (Escena anterior) en macros para cambiar entre las escenas.
