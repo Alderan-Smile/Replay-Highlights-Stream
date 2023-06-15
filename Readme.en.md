@@ -29,6 +29,13 @@ IgnoreFolder = C:\Users\Admn\Videos\Overwolf\Outplayed\temp-capture
 video_folder = C:\Users\Admn\Videos\Overwolf\Outplayed
 
 [Framerate]
+# Frame rate options:
+# - original_player: Original frame rate of the player
+# - original_video: Original frame rate of the video
+# - 15: 15 frames per second
+# - 30: 30 frames per second
+# - 45: 45 frames per second
+# - 60: 60 frames per second
 option = original_video
 
 [LogSettings]
